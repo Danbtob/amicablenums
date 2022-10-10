@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Amicable Numbers</title>
+		<style type = "text/css">
+			body {
+				background-color: #B9F0ED;
+				display: flex; 
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				font-size: 16px;
+			}
+			h1 {
+				font-size: 40px;
+			}
+			#calcAndDisplayAmicable {
+				margin-bottom: 20px;
+				font-size: 25px;
+			}
+			input {
+				margin-bottom: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Are They Amicable?</h1>
+		<div id = "calcAndDisplayAmicable">
+			<script>
+				/*
+				Name: calcAmicable
+				Input: user's numbers and empty arrays;
+				Output: one array filled with factors of 1st num,
+						one array filled with the factors of 2nd num,
+						displays if numbers are amicable
+				Purpose: fills arrays with respective numbers' factors 
+						 and tells user if numbers are amicable
+				*/
+				function calcAmicable(num1, num2, arr1, arr2) {
+					/*
+					Name: isFactor
+					Input: two positive integers, with x being tested if 
+						   factor of y
+					Output: true if x is factor, false if x is not factor
+					Purpose: returns true if x is a factor of y 
+					*/
+					function isFactor(x, y) {
+						if (y % x == 0) {
+							return true;
+						} 
+					}
+					
+					/*
+					Name: fillArray
+					Input: number from user and empty array
+					Outcome: full array of factors of user's number
+					Purpose: fill array with factors of a number using isFactor 
+					*/
+					function fillArray(num, arr) {
+						for (i = 1; i < num; i++) {
+							var pf = i;
+							if (isFactor(pf, num) == true) {
+								arr.push(i);
+							}
+						}
+					}
+					
+					fillArray(num1, arr1);
+					fillArray(num2, arr2);
+					/*
+					Name: sumArray
+					Input: array with factors 
+					Output: sum of all numbers within array 
+					Purpose: adds up all numbers within an array, stores within 
+							 variable, and returns that variable 
+					*/
+					function sumArray(arr) {
+						var sum = 0;
+						for (i = 0; i < arr.length; i++) {
+							sum = sum + arr[i];
+						}
+						return sum;
+					}
+					
+					/*
+					Name: isAmicable
+					Input: user's number and array with factors 
+					Output: true if user's number and sum of numbers in given 
+							array are amicable, otherwise returns false
+					Purpose: tests to see if numbers are amicable by calling 
+							 sumArray to see if user's number and sum of numbers 
+							 in given array are equal, and returns true if they 
+							 are amicable
+					*/
+					function isAmicable(num, arr) {
+						if (num == sumArray(arr)) {
+							return true;
+						}
+					}
+					
+					/*
+					Name: displayResults
+					Input: two numbers from user, two arrays filled with factors 
+						   from each number 
+					Outcome: displays if numbers are amicable or not 
+					Purpose: tests if numbers and respective arrays with factors
+							 are amicable; displays results to screen 
+					*/
+					function displayResults(num1, num2, arr1, arr2) {
+						if ((isAmicable(num1, arr2) == true) && (isAmicable(num2, arr1) == true)) {
+							document.getElementById("isItAmicable").innerHTML = "The numbers: " + num1 + " and " + num2 + " are amicable";
+						} else {
+							document.getElementById("isItAmicable").innerHTML = "The numbers: " + num1 + " and " + num2 + " are not amicable";
+						}
+					}
+					
+					displayResults(num1, num2, arr1, arr2);
+				}
+			</script>
+		</div>
+		<div id = "printFactors">
+			<script>
+				/*
+				Name: displayFactors
+				Input: array with factors and respective user's numbers
+				Outcome: prints contents of array with factors
+				Purpose: prints each number in the array to the screen
+				*/
+				function printFac(num1, num2, arr1, arr2) {
+					document.getElementById("firstfactors").innerHTML = 
+						"Factors of " + num1 + ": " + arr1.join(", ");
+					document.getElementById("secondfactors").innerHTML =
+						"Factors of " + num2 + ": " + arr2.join(", ");
+				}
+			</script>
+		</div>
+		<div id = "form">
+			<form>
+				<label for="fnum">First Number</label><br>
+				<input type="text" id="fnum" name="firstnum" class="1stnum"><br>
+				<label for="snum">Second Number</label><br>
+				<input type="text" id="snum" name="secondnum" class="2ndnum"><br>
+				<input type="button" value="Calculate" id="btn" name="btn" class="btn"><br>
+			</form>
+			<script>
+				/*
+				Purpose: This function occurs when the button with id = "btn" 
+						 is clicked. The function creates 4 variables: 2 ints 
+						 that store user's input from the form, and 2 empty 
+						 arrays. The function then calls the parent functions 
+						 for calculating if the ints are amicable and 
+						 displaying the numbers' factors
+				*/
+				btn.onclick = function() {
+					var num1 = document.getElementById("fnum").value;
+					var num2 = document.getElementById("snum").value;
+					
+					var arr1 = [];
+					var arr2 = [];
+					
+					calcAmicable(num1, num2, arr1, arr2);
+					printFac(num1, num2, arr1, arr2);
+				}
+			</script>
+		</div>
+		<div id = "isItAmicable"></div>
+		<br>
+		<div id = "firstfactors"></div>
+		<br>
+		<div id = "secondfactors"></div>
+	</body>
+</html>
